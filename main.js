@@ -1,6 +1,6 @@
 let body = document.body
-let drawCtx = document.getElementById('drawing').getContext('2d');
-let imgCtx = document.getElementById('image').getContext('2d');
+let drawCtx = document.getElementById('drawing').getContext('2d')
+let imgCtx = document.getElementById('image').getContext('2d')
 let lastImg
 
 let processImg = (img, ctx, prams) => {
@@ -16,36 +16,36 @@ let processImg = (img, ctx, prams) => {
   let imgPos = zip(scaledDims,canSize,(a,b)=>-(a-b)/2)
   //end this 
 
-  ctx.drawImage(img,0,0,...imgSize,...imgPos,...scaledDims);
+  ctx.drawImage(img,0,0,...imgSize,...imgPos,...scaledDims)
 
   drawSpiral(drawCtx, imgCtx, prams)
 }
 
 let drawSpiral = (drawCtx, imgCtx, prams) => {
-  let a = 1
-  let b = 1.4
-  let centerx = drawCtx.canvas.width / 2;
-  let centery = drawCtx.canvas.height / 2;
+  let a = 1*2
+  let b = 2
+  let centerx = drawCtx.canvas.width / 2
+  let centery = drawCtx.canvas.height / 2
   //being spiraling :)
-  drawCtx.clearRect(0, 0, 600, 600);
+  drawCtx.clearRect(0, 0, drawCtx.canvas.width, drawCtx.canvas.height)
 
-  drawCtx.moveTo(centerx, centery);
+  drawCtx.moveTo(centerx, centery)
   let [lastx,lasty] = [centerx,centery]
-  for (i = 0; i < 20000; i++) {
-    let angle = 0.01 * i
-    let x = centerx + (a + b * angle) * Math.cos(angle)
-    let y = centery + (a + b * angle) * Math.sin(angle)
+  for (i = 0; i < 19000; i++) {
+    let angle = 0.015 * i
+    let x = centerx + (a + b * angle) * Math.cos(angle) + Math.random()
+    let y = centery + (a + b * angle) * Math.sin(angle) + Math.random()
 
-    drawCtx.beginPath();
+    drawCtx.beginPath()
     drawCtx.moveTo(lastx, lasty)
     drawCtx.strokeStyle = "#000"
 
-    let pxl = imgCtx.getImageData(x, y, 1, 1).data.slice(0,3)
+    let pxl = imgCtx.getImageData(x/2, y/2, 1, 1).data.slice(0,3)
     let pxlB = 255 - pxl.reduce((a,b) => a+b)/3
 
-    drawCtx.lineWidth = 0.3+pxlB/64
+    drawCtx.lineWidth = 0.6+pxlB/32
     drawCtx.lineTo(x, y)
-    drawCtx.stroke();
+    drawCtx.stroke()
     ;[lastx,lasty] = [x,y]
   }
 }
@@ -58,7 +58,7 @@ let handleDrop = event => {
   event.preventDefault()
   let reader = new window.FileReader()
   reader.onload = event => {
-    var img = new Image;
+    let img = new Image
     img.src = event.target.result;
     lastImg = img
     img.onload = () => processImg(img,imgCtx,{})
