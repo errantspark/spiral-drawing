@@ -1,0 +1,13 @@
+body {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  height: 100vh;
+}
+#drawing {
+  border: solid #ddd 0.5px;
+  width: 600px;
+  height: 600px;
+  margin: 0 auto;
+  vertical-align: middle;
+}
